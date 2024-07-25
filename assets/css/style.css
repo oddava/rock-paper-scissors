@@ -1,0 +1,22 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+@media (max-width: 600px) {
+    .main {
+        min-width: 350px !important;
+    }
+    .buttons {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+    }
+    .buttons .restart {
+        grid-column: auto !important;
+    }
+    .tip_text {
+        display: none;
+    }
+}
