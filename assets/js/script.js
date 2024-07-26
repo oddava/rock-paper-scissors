@@ -233,6 +233,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function checkGameOver(computerScore, playerScore, rounds) {
+        const gameOver  = computerScore === rounds||playerScore===rounds ? true : false;
+        if (gameOver==true){hideItems(buttons, "button.rock, button.paper, button.scissors");}
+    }
+
     hideItems(icons, "i");
 
     let computerScore = 0;
@@ -248,13 +253,14 @@ document.addEventListener("DOMContentLoaded", () => {
         e.addEventListener("click", () => {
             const choice = checkWin(e.className);
             displayIcons(choice.playerChoice, choice.computerChoice);
-
+            
             if (choice.status === "win") {
                 playerScore += 1;
             } else if (choice.status === "lost") {
                 computerScore += 1;
             }
-
+            
+            checkGameOver(computerScore, playerScore, 3);
             title.innerHTML = titleContent[choice.status][Math.floor(Math.random() * 3)];
             score.innerHTML = `${playerScore}:${computerScore}`;
         });
@@ -266,5 +272,8 @@ document.addEventListener("DOMContentLoaded", () => {
         playerScore = 0;
         hideItems(icons, "i");
         title.innerText = "You think you can win?";
+        buttons.querySelectorAll("button.rock, button.paper, button.scissors").forEach(e => {
+            e.style.display = "block";
+        })
     });
 });
