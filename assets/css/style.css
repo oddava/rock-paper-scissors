@@ -8,7 +8,6 @@
 @media (max-width: 600px) {
     .main {
         min-width: 350px !important;
-        max-height: calc(100vh - 10vw);
     }
     .buttons {
         grid-template-columns: 1fr !important;
