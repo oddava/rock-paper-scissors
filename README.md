@@ -21,7 +21,7 @@ To run this project locally, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/rock-paper-scissors.git
+    git clone https://github.com/oddava/rock-paper-scissors.git
     ```
 2. Navigate to the project directory:
     ```sh
