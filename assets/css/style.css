@@ -19,4 +19,7 @@
     .tip_text {
         display: none;
     }
+    .footer {
+        height: auto;
+    }
 }

@@ -186,6 +186,7 @@ icons.querySelectorAll("div").forEach((e) => {
 footer.style.cssText = `
     position: absolute;
     width: 100%;
+    height: auto;
     bottom: 0;
     border-top: 1px solid #e1ffff;
     display: flex;
