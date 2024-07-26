@@ -99,7 +99,6 @@ footerText.setAttribute("href", "https://github.com/oddava")
 footerText.setAttribute("target", "_blank")
 
 // Styling the elements
-
 body.style.cssText = `
     width: 100%;
     height: 100vh;
@@ -117,36 +116,30 @@ result.style.cssText = `
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-flow: column nowrap;
-`
+    flex-flow: column nowrap;`;
 title.style.cssText = `
     margin-bottom: 2rem;
     font-size: 1.2rem;
     font-weight: 500;
     line-height: 1.2;
-    color: #0085ff;
-`
+    color: #0085ff;`;
 icons.style.cssText = `
     width: 40%;
     display: flex;
-    justify-content: space-between;
-`
+    justify-content: space-between;`;
 playsForPlayer.style.cssText = `
     display: flex;
-    flex-direction: column;
-`
+    flex-direction: column;`;
 playsForComputer.style.cssText = `
     display: flex;
-    flex-direction: column;
-`
+    flex-direction: column;`;
 score.style.cssText = `
     text-align: center;
     font-size: 1.2rem;
     color: #0085ff;
     font-weight: 500;
     line-height: 1.2;
-    margin-bottom: 2rem;
-`
+    margin-bottom: 2rem;`;
 buttons.style.cssText = `
     width: 65%;
     margin: 0 auto;
@@ -154,8 +147,7 @@ buttons.style.cssText = `
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;
     gap: 30px;
-    margin-bottom: 1.5em;
-`
+    margin-bottom: 1.5em;`;
 
 buttons.querySelectorAll("button").forEach((btn) => {
     btn.style.cssText = `
@@ -167,8 +159,7 @@ buttons.querySelectorAll("button").forEach((btn) => {
     background: #0085ff;
     color: #fff;
     font-size: 1rem;
-    font-weight: 500;
-    `
+    font-weight: 500;`;
 })
 restartBtn.style.gridColumn = "-3/-2"
 restartBtn.style.background = "transparent";
@@ -179,9 +170,8 @@ icons.querySelectorAll("div").forEach((e) => {
     e.querySelectorAll("i").forEach((i) => {
         i.style.cssText = `
         font-size: 30px;
-        color: #e0ffff;
-    `
-    })
+        color: #e0ffff;`;
+    });
 })
 
 footer.style.cssText = `
@@ -200,118 +190,81 @@ footerText.style.cssText = `
     color: #e0ffff;
     font-size: 1rem;
     font-weight: 600;
-    padding: .8rem 0;
-    `
+    padding: .8rem 0;`;
 
 document.addEventListener("DOMContentLoaded", () => {
-    icons.querySelectorAll("i").forEach((i) => {
-        i.style.display="none"
-    })
+    const iconMap = {
+        "rock": { player: iconRockPlayer, computer: iconRockComputer },
+        "paper": { player: iconPaperPlayer, computer: iconPaperComputer },
+        "scissors": { player: iconScissorsPlayer, computer: iconScissorsComputer }
+    };
 
-    function checkWin (choice) {
-        let playerChoice = choice;
-        let computerChoice = Math.floor(Math.random() * 3)
-        switch (computerChoice) {
-            case 0:
-                computerChoice = "rock"
-                break;
-            case 1:
-                computerChoice = "paper"
-                break;
-            case 2:
-                computerChoice = "scissors"
-                break;
+    function displayIcons(playerChoice, computerChoice) {
+        hideItems(icons, "i");
+        iconMap[playerChoice].player.style.display = "block";
+        iconMap[computerChoice].computer.style.display = "block";
+    }
+
+    function getComputerChoice() {
+        const choices = ["rock", "paper", "scissors"];
+        return choices[Math.floor(Math.random() * 3)];
+    }
+
+    function checkWin(playerChoice) {
+        const computerChoice = getComputerChoice();
+
+        if (playerChoice === computerChoice) {
+            return { playerChoice, computerChoice, status: "tie" };
         }
 
-        if (playerChoice == "rock" && computerChoice == "scissors") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "win"}
-        } else if (playerChoice == "rock" && computerChoice == "paper") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "lost"}
-        } else if (playerChoice == "paper" && computerChoice == "rock") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "win"}
-        } else if (playerChoice == "paper" && computerChoice == "scissors") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "lost"}
-        } else if (playerChoice == "scissors" && computerChoice == "paper") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "win"}
-        } else if (playerChoice == "scissors" && computerChoice == "rock") {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "lost"}
-        } else {
-            return {"playerChoice": playerChoice, "computerChoice": computerChoice, "status": "tie"}
-        }   
+        const winConditions = {
+            "rock": "scissors",
+            "paper": "rock",
+            "scissors": "paper"
+        };
+
+        const status = winConditions[playerChoice] === computerChoice ? "win" : "lost";
+        return { playerChoice, computerChoice, status };
     }
+
+    function hideItems(container, item) {
+        container.querySelectorAll(item).forEach(i => {
+            i.style.display = "none";
+        });
+    }
+
+    hideItems(icons, "i");
 
     let computerScore = 0;
     let playerScore = 0;
-    buttons.querySelectorAll("button.rock, button.paper, button.scissors").forEach((e) => {
+
+    const titleContent = {
+        "win": ["Congratulations! You Win!", "Well Done! You Guessed Correctly!", "Victory! Excellent Job!"],
+        "lost": ["You Lost. Better Luck Next Time!", "You Lost. Don't Give Up!", "Defeat. Keep Trying!"],
+        "tie": ["It's a Tie!", "Tie! Both Played Well", "A Tie! Great Effort from Both"]
+    };
+
+    buttons.querySelectorAll("button.rock, button.paper, button.scissors").forEach(e => {
         e.addEventListener("click", () => {
-            let choice = checkWin(e.className);
-            const titleWinContent = [
-                "Congratulations! You Win!",
-                "Well Done! You Guessed Correctly!",
-                "Victory! Excellent Job!"
-            ];            
-            const titleLoseContent = [
-                "You Lost. Better Luck Next Time!",
-                "You Lost. Don't Give Up!",
-                "Defeat. Keep Trying!"
-            ];            
-            const titleTieContent = [
-                "It's a Tie!",
-                "Tie! Both Played Well",
-                "A Tie! Great Effort from Both"
-            ];            
+            const choice = checkWin(e.className);
+            displayIcons(choice.playerChoice, choice.computerChoice);
 
-            icons.querySelectorAll("i").forEach((i) => {
-                i.style.display="none"
-            })
-
-            switch (choice.playerChoice) {
-                case "rock":
-                iconRockPlayer.style.display = "block"
-                    break;
-                case "paper":
-                iconPaperPlayer.style.display = "block"
-                    break;
-                case "scissors":
-                iconScissorsPlayer.style.display = "block"
-                    break;
+            if (choice.status === "win") {
+                playerScore += 1;
+            } else if (choice.status === "lost") {
+                computerScore += 1;
             }
 
-            switch (choice.computerChoice) {
-                case "rock":
-                iconRockComputer.style.display = "block"
-                    break;
-                case "paper":
-                iconPaperComputer.style.display = "block"
-                    break;
-                case "scissors":
-                iconScissorsComputer.style.display = "block"
-                    break;
-            }
+            title.innerHTML = titleContent[choice.status][Math.floor(Math.random() * 3)];
+            score.innerHTML = `${playerScore}:${computerScore}`;
+        });
+    });
 
-            switch (choice.status) {
-                case "win":
-                    playerScore += 1;
-                    title.innerHTML = titleWinContent[Math.floor(Math.random() * 3)];
-                    break;
-                case "lost":
-                    computerScore += 1;
-                    title.innerHTML = titleLoseContent[Math.floor(Math.random() * 3)];
-                    break;
-                default:
-                    title.innerHTML = titleTieContent[Math.floor(Math.random() * 3)];
-                    break;
-            }
-            score.innerHTML = `${playerScore}:${computerScore}`
-        })
-    })
     restartBtn.addEventListener("click", () => {
-        score.innerHTML = `0:0`
+        score.innerHTML = "0:0";
         computerScore = 0;
         playerScore = 0;
-        icons.querySelectorAll("i").forEach((i) => {
-            i.style.display="none"
-        })
-        title.innerText = "You think you can win?"
-    })
-})
+        hideItems(icons, "i");
+        title.innerText = "You think you can win?";
+    });
+});
