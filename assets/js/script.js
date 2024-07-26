@@ -106,8 +106,8 @@ body.style.cssText = `
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #1E1E1E
-    overflow: hidden`;
+    background: #1E1E1E;
+    overflow: hidden;`;
 
 main.style.minWidth = "550px";
 
