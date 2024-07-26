@@ -8,6 +8,7 @@
 @media (max-width: 600px) {
     .main {
         min-width: 350px !important;
+        max-height: 100vh;
     }
     .buttons {
         grid-template-columns: 1fr !important;
@@ -18,8 +19,5 @@
     }
     .tip_text {
         display: none;
-    }
-    .footer {
-        height: auto;
     }
 }
