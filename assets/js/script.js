@@ -34,15 +34,22 @@ main.appendChild(result);
 result.appendChild(title);
 result.appendChild(icons);
 
+const titlePlayer = document.createElement("p");
+const titleComputer = document.createElement("p");
+
 icons.appendChild(playsForPlayer);
 playsForPlayer.appendChild(iconRockPlayer)
 playsForPlayer.appendChild(iconPaperPlayer)
 playsForPlayer.appendChild(iconScissorsPlayer)
 
+playsForPlayer.appendChild(titlePlayer)
+
 icons.appendChild(playsForComputer);
 playsForComputer.appendChild(iconRockComputer)
 playsForComputer.appendChild(iconPaperComputer)
 playsForComputer.appendChild(iconScissorsComputer)
+
+playsForComputer.appendChild(titleComputer)
 
 main.appendChild(score);
 
@@ -87,6 +94,9 @@ restartBtn.classList.add("restart")
 title.innerText = "You think you can win?";
 score.innerText = "0:0"
 
+titlePlayer.innerText = "Player";
+titleComputer.innerText = "Computer";
+
 rockBtn.innerText = "Rock"
 paperBtn.innerText = "Paper"
 scissorsBtn.innerText = "Scissors"
@@ -127,12 +137,20 @@ icons.style.cssText = `
     width: 40%;
     display: flex;
     justify-content: space-between;`;
+const titleStyle = `
+    color: #ebebeb;
+    font-weight: 500;
+    margin-top: .5rem;`
+titlePlayer.style.cssText = titleStyle;
+titleComputer.style.cssText = titleStyle;
 playsForPlayer.style.cssText = `
     display: flex;
-    flex-direction: column;`;
+    flex-direction: column;
+    align-items: center`;
 playsForComputer.style.cssText = `
     display: flex;
-    flex-direction: column;`;
+    flex-direction: column;
+    align-items: center`;
 score.style.cssText = `
     text-align: center;
     font-size: 1.2rem;
@@ -203,6 +221,8 @@ document.addEventListener("DOMContentLoaded", () => {
         hideItems(icons, "i");
         iconMap[playerChoice].player.style.display = "block";
         iconMap[computerChoice].computer.style.display = "block";
+        titlePlayer.style.display = "block"
+        titleComputer.style.display = "block"
     }
 
     function getComputerChoice() {
@@ -239,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     hideItems(icons, "i");
+    hideItems(icons, "p");
 
     let computerScore = 0;
     let playerScore = 0;
@@ -271,6 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         computerScore = 0;
         playerScore = 0;
         hideItems(icons, "i");
+        hideItems(icons, "p");
         title.innerText = "You think you can win?";
         buttons.querySelectorAll("button.rock, button.paper, button.scissors").forEach(e => {
             e.style.display = "block";
